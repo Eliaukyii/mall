@@ -2,15 +2,14 @@
   <div class="cart-list-item">
     <cart-check-button
         @click.native="checkClick"
-        :is-checked="itemInfo.checked"
-        ref="checkButtonRef">
+        :is-checked="itemInfo.checked">
     </cart-check-button>
 
     <div class="item-img">
       <img :src="itemInfo.image" alt="商品图片">
     </div>
 
-    <div class="item-info" @click="infoClick(item)">
+    <div class="item-info">
       <p class="item-title">{{itemInfo.title}}</p>
       <p class="item-desc">{{itemInfo.desc}}</p>
       <span class="item-price">￥{{itemInfo.price}}</span>
@@ -36,17 +35,12 @@ export default {
   },
   methods: {
     checkClick(){
-     this.itemInfo.checked = !this.itemInfo.checked
-    },
-     infoClick(itemInfo) {
-      this.$router.push("/detail/" + itemInfo.iid);
+     this.itemInfo.checked = !this.itemInfo.checked;
     }
-  },
-  mounted () {
-
   }
 }
 </script>
+
 
 <style scoped>
 

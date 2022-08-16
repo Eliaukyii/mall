@@ -3,10 +3,11 @@ import App from './App.vue'
 import router from './router'
 import mitt from 'mitt'
 import store from './store'
-
 import Fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
-
+import axios from 'axios'
+// import toast from 'components/common/toast'
+// app.use(toast)
 // createApp(App).mount('#app')
 
 const app=createApp(App)
@@ -14,6 +15,7 @@ app.use(router)
 app.mount('#app')
 app.use(store)
 app.use(VueLazyload)
+
 app.config.globalProperties.$bus=new mitt()
 
 //bus的函数emit和on是来源于mitt,而不是vue,不需要使用符号!!!
@@ -23,3 +25,5 @@ app.config.globalProperties.$bus=new mitt()
 
 //解决移动端300ms延迟
 Fastclick.attach(document.body)
+
+axios.defaults.baseURL="192.168.0.105"

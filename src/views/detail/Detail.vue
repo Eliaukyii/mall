@@ -16,8 +16,7 @@
   </scroll>
   <detail-bottom-bar @addCart="addToCart"/>
   <back-top @click.native="backTop" v-show="isShowBackTop"/>
-  <!-- <toast :message="message" :show="show"/> -->
-
+  <toast :message="message" :show="show"/>
   </div>
 </template>
 
@@ -33,11 +32,12 @@ import DetailBottomBar from './childComps/DetailBottomBar.vue'
 
 import Scroll from 'components/common/scroll/Scroll.vue'
 import GoodsList from 'components/content/goods/GoodsList.vue'
-// import Toast from 'components/common/toast/Toast.vue'
+import Toast from 'components/common/toast/Toast.vue'
 
 import {getDetail, Goods, Shop, GoodsParam, getRecommend} from 'network/detail'
 import {debounce} from 'common/utils'
 import {itemListenerMixin,backTopMixin} from 'common/mixin'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'Detail',
@@ -52,7 +52,7 @@ export default {
    DetailBottomBar,
    Scroll,
    GoodsList,
-  //  Toast
+   Toast
   },
   mixins:[itemListenerMixin,backTopMixin],
     data() {
@@ -69,8 +69,8 @@ export default {
         getThemeTopY:null,
         currentIndex:0,
         isShowBackTop:false,
-        // message:'',
-        // show:false
+        message:'',
+        show:false
     }
   },
   created(){
@@ -79,7 +79,7 @@ export default {
 
      //2.根据iid请求详细数据
      getDetail(this.iid).then(res=>{
-       console.log(res)
+      // console.log(res)
         //1.获取数据
         const data=res.data.result
 
@@ -136,7 +136,7 @@ export default {
     this.$bus.off('itemImgLoad',this.itemImgListener)
   },
   methods: {
-    // ...mapActions(['addCart']),
+     ...mapActions(['addCart']),
     imageLoad(){
      this.$refs.scroll.refresh()
      this.getThemeTopY()
@@ -169,30 +169,30 @@ export default {
      product.image=this.topImages[0];
      product.title=this.goods.title;
      product.desc=this.goods.desc;
-     product.newPrice = this.goods.realPrice
+     product.price = this.goods.realPrice
      product.iid=this.iid
    
     //2.将商品添加到购物车
      //this.$store.commit('addCart',product)
-    // this.$store.dispatch('addCart',product).then(res=>{
-    //   console.log(res);
-    // })
+   //this.$store.dispatch('addCart',product).then(res=>{
+     //console.log(res);
+   // })
 
-    // this.addCart(product).then(res=>{
-    //   // this.show=true;
-    //   // this.message=res;
+     this.addCart(product).then(res=>{
+      this.message=res;
+      this.show=true;
 
-    //   // setTimeout(()=>{
-    //   //   this.show=false;
-    //   //   this.message=''
-    //   // },1500)
-    //   this.$toast.show(res,2000)
+      setTimeout(()=>{
+        this.message=''
+        this.show=false;
+      },1500)
+    //  this.$toast.show(res,2000)
     //   console.log(this.$toast);
-    //   this.$toast.show(res)
-    // }
-    //) 
+    // console.log(res);
+    })
+     
 
-    this.$store.dispatch('addCart',product)
+    // this.$store.dispatch('addCart',product)
   }
 }
 }

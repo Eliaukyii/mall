@@ -1,157 +1,137 @@
 <template>
-  <div class="wrapper">
-  <ul class="content">
-    <button @click="btnClick">按钮</button>
-    <li>分类列表1</li>
-    <li>分类列表2</li>
-    <li>分类列表3</li>
-    <li>分类列表4</li>
-    <li>分类列表5</li>
-    <li>分类列表6</li>
-    <li>分类列表7</li>
-    <li>分类列表8</li>
-    <li>分类列表9</li>
-    <li>分类列表10</li>
-    <li>分类列表11</li>
-    <li>分类列表12</li>
-    <li>分类列表13</li>
-    <li>分类列表14</li>
-    <li>分类列表15</li>
-    <li>分类列表16</li>
-    <li>分类列表17</li>
-    <li>分类列表18</li>
-    <li>分类列表19</li>
-    <li>分类列表20</li>
-    <li>分类列表21</li>
-    <li>分类列表22</li>
-    <li>分类列表23</li>
-    <li>分类列表24</li>
-    <li>分类列表25</li>
-    <li>分类列表26</li>
-    <li>分类列表27</li>
-    <li>分类列表28</li>
-    <li>分类列表29</li>
-    <li>分类列表30</li>
-    <li>分类列表31</li>
-    <li>分类列表32</li>
-    <li>分类列表33</li>
-    <li>分类列表34</li>
-    <li>分类列表35</li>
-    <li>分类列表36</li>
-    <li>分类列表37</li>
-    <li>分类列表38</li>
-    <li>分类列表39</li>
-    <li>分类列表40</li>
-    <li>分类列表41</li>
-    <li>分类列表42</li>
-    <li>分类列表43</li>
-    <li>分类列表44</li>
-    <li>分类列表45</li>
-    <li>分类列表46</li>
-    <li>分类列表47</li>
-    <li>分类列表48</li>
-    <li>分类列表49</li>
-    <li>分类列表50</li>
-    <li>分类列表51</li>
-    <li>分类列表52</li>
-    <li>分类列表53</li>
-    <li>分类列表54</li>
-    <li>分类列表55</li>
-    <li>分类列表56</li>
-    <li>分类列表57</li>
-    <li>分类列表58</li>
-    <li>分类列表59</li>
-    <li>分类列表60</li>
-    <li>分类列表61</li>
-    <li>分类列表62</li>
-    <li>分类列表63</li>
-    <li>分类列表64</li>
-    <li>分类列表65</li>
-    <li>分类列表66</li>
-    <li>分类列表67</li>
-    <li>分类列表68</li>
-    <li>分类列表69</li>
-    <li>分类列表70</li>
-    <li>分类列表71</li>
-    <li>分类列表72</li>
-    <li>分类列表73</li>
-    <li>分类列表74</li>
-    <li>分类列表75</li>
-    <li>分类列表76</li>
-    <li>分类列表77</li>
-    <li>分类列表78</li>
-    <li>分类列表79</li>
-    <li>分类列表80</li>
-    <li>分类列表81</li>
-    <li>分类列表82</li>
-    <li>分类列表83</li>
-    <li>分类列表84</li>
-    <li>分类列表85</li>
-    <li>分类列表86</li>
-    <li>分类列表87</li>
-    <li>分类列表88</li>
-    <li>分类列表89</li>
-    <li>分类列表90</li>
-    <li>分类列表91</li>
-    <li>分类列表92</li>
-    <li>分类列表93</li>
-    <li>分类列表94</li>
-    <li>分类列表95</li>
-    <li>分类列表96</li>
-    <li>分类列表97</li>
-    <li>分类列表98</li>
-    <li>分类列表99</li>
-    <li>分类列表100</li>
-  </ul>
+  <div>
+    <!-- 导航栏 -->
+    <nav-bar class="nav">
+     <template v-slot:left>
+        <div class="backHome" @click="backHomeClick">
+             <img src="~assets/img/common/backHome.svg" alt="">
+        </div>
+    </template> 
+    <template v-slot:center>
+         <span>分类</span>
+    </template>
+    </nav-bar>
+
+    <div class="menu">
+    <!-- 左侧一级分类盒子 -->
+    <div class="menu-left">
+      <ul>
+        <li class="menu-item" 
+            v-for="(item,index) in menus" 
+           :key="index"
+           @click="clickList(index)"
+           :class="{current:index==currentIndex}">
+        <p class="text">{{item.title}}</p>
+        </li>
+        </ul>
+    </div>
+
+    <!-- 右侧二级分类盒子 -->
+    <div class="menu-right">
+      <ul>
+      <li v-for="(item,index1) in menus" :key="index1" class="cate">
+        <h4 class="cate-title"></h4>
+        <ul>
+          <li v-for="(item,index2) in menus" :key="index2">
+            <a href="#" class="cate-item-wrapper">
+              <img :src="itemImage" alt="">
+              <span></span>
+            </a>
+            </li>
+        </ul>
+      </li>
+      </ul>
+    </div>
+   </div>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
-
+import NavBar from 'components/common/navbar/NavBar'
+import {getCategory} from 'network/category'
 export default {
-  name: 'Category',
-  data(){
-    return{
-      scroll:null
+  name: '',
+  components:{
+    NavBar
+  },
+  data () {
+    return {
+      menus:[],
+      currentIndex:0,
+      miniWallkey:[],
+      itemImage:[],
+      maitKey:null
     }
   },
-  created(){
-    
-  },
-  mounted(){
-    this.scroll=new BScroll(document.querySelector('.wrapper'),{
-      probeType:3,
-      pullUpLoad:true,
-      
+  created() {
+    getCategory().then(res=>{
+    console.log(res);
+      this.menus=res.data.data.category.list
     })
-    this.scroll.on('scroll',(position)=>{
-      console.log(position);
-    })
-    this.scroll.on('pullingUp',()=>{
-      console.log('上拉加载更多');
 
-      // setTimeout(()=>{
-      //   this.scroll.finishPullUp()
-      // },2000)
-    })
-    // document.querySelector('.btn').addEventListener('click',function(){
-    //   console.log("----");
-    // })
   },
-  methods:{
-    btnClick(){
-      console.log('btnClick');
+  mounted () {
+   
+  },
+  methods: {
+     backHomeClick(){
+        // this.$router.back()
+       // console.log("111");
+      
+    },
+    clickList(index){
+      this.currentIndex=index
     }
   }
 }
 </script>
 
 <style scoped>
-.wrapper{
-  height: 150px;
-  background-color: red;
-  overflow: hidden;
-  /* overflow-y: scroll; */
+ul{
+  padding: 0;
+  margin: 0;
 }
+li{
+  list-style: none;
+}
+.nav{
+  position: fixed;
+  width: 100%;
+  color: #fff;
+  background-color:  var(--color-tint);
+}
+.backHome img{
+    width: 24px;
+    height: 24px;
+    margin-top: 10px;
+}
+.menu{
+  display: flex;
+  flex: 1;
+  padding-top:45px;
+  text-align: center;
+}
+.menu-left{
+    width: 80px;
+    background-color: #f3f5f7;
+}
+.menu-item{
+  height: 45px;
+  line-height: 45px;
+}
+.current{
+  width: 100%;
+  background-color: #fff;
+}
+.text:hover{
+  color:var(--color-tint);
+}
+.menu-right{
+  flex: 1;
+  background-color: #fff;
+}
+.cate{
+  height: 100%; 
+ }
+
 </style>

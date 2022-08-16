@@ -32,11 +32,6 @@ computed:{
        'cartLength',
        'cartList'
     ])
-  },
-  data () {
-    return {
-      msg: ''
-    }
   }
 }
 </script>

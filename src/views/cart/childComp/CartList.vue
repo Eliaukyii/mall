@@ -1,10 +1,11 @@
 <template>
   <div class="cart-list">
     <scroll class="content" ref="scroll">
-        <cart-list-item 
+        <cart-list-item
         v-for="item in cartList" 
         :key="item.iid" 
-        :itemInfo="item"/>
+        :item-Info="item">
+        </cart-list-item> 
     </scroll>
   </div>
 </template>
